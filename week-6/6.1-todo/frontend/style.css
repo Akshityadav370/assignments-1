@@ -1,42 +1,97 @@
-
-
 body {
-  /*  write here */
-  }
-    
-  .container {
-  /*  write here */
-  }
-    
-  h1 {
-  /*  write here */
-  }
-    
-  .input-container {
-  /*  write here */
-  }
-    
-  #todo-input {
-  /*  write here */
-  }
-    
-  #add-todo-btn {
-  /*  write here */
-  }
-    
-  #todo-list {
-   /*  write here */
-  }
-    
-  #todo-list li {
-  /*  write here */
-  }
-    
-  #todo-list li.completed {
-  /*  write here */
-  }
-    
-  button.delete-btn {
-  /*  write here */
-  }
-    
+  background-color: #181d36;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  background-color: #242940;
+  padding: 2rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: stretch;
+  row-gap: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+h1 {
+  font-size: 2.2rem;
+  color: #9d4edd;
+}
+
+.input-container {
+}
+
+#todo-input {
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  background-color: #3a3f53;
+  color: #a0a0a0;
+  border: none;
+  width: 100%;
+}
+
+#add-todo-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 20px auto;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  background-color: #5a189a;
+  color: #fff;
+  border: none;
+}
+
+#todo-list {
+  list-style: none;
+}
+
+#todo-list li {
+  /* padding: 10px; */
+  padding: 2px 20px;
+  font-size: 1.2rem;
+  color: #fff;
+  display: flex;
+  border-radius: 10px;
+  justify-content: space-between;
+  background-color: #3a3f53;
+  margin-bottom: 10px;
+}
+
+#todo-list li.completed {
+  text-decoration: line-through;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: grey;
+}
+
+button.delete-btn {
+  background-color: red;
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+  padding: 8px 12px;
+  align-self: center;
+  cursor: pointer;
+}
+
+button.complete-btn {
+  background-color: grey;
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+  padding: 8px 12px;
+  align-self: center;
+  cursor: pointer;
+}
