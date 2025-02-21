@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const { authenticateJwt, USER_SECRET } = require('../middleware/user');
 const { User, validateUser, Course, Purchases } = require('../db/index');
 
@@ -20,7 +21,9 @@ router.post('/signup', async (req, res) => {
       return res.status(403).json({ message: 'User already exists' });
     }
 
-    const newUser = new User({ username, password });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
 
     const token = jwt.sign({ userId: newUser._id }, USER_SECRET, {
@@ -36,20 +39,26 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.headers;
   try {
     validateUser({ username, password });
-    const user = await User.findOne({ username, password });
-    if (user) {
-      const token = jwt.sign({ userId: user._id }, USER_SECRET, {
-        expiresIn: '1h',
-      });
-      // TODO:Do cookie logic
-      return res.json({
-        message: 'Logged in successfully',
-        token,
-        isAdmin: false,
-      });
-    } else {
+
+    const user = await User.findOne({ username });
+    if (!user) {
       return res.status(403).json({ message: 'Invalid username or password' });
     }
+
+    const matched = await bcrypt.compare(password, user.password);
+    if (!matched) {
+      return res.status(401).json({ message: 'Wrong username/password!' });
+    }
+
+    const token = jwt.sign({ userId: user._id }, USER_SECRET, {
+      expiresIn: '1h',
+    });
+
+    return res.json({
+      message: 'Logged in successfully',
+      token,
+      isAdmin: false,
+    });
   } catch (error) {
     return res
       .status(500)

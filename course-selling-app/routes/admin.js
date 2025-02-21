@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const { authenticateAdminJwt, ADMIN_SECRET } = require('../middleware/admin');
 const { Admin, Course, validateAdmin, validateCourse } = require('../db/index');
 
@@ -16,12 +17,14 @@ router.post('/signup', async (req, res) => {
   const { username, password } = req.headers;
   try {
     validateAdmin({ username, password });
+
     const user = await Admin.findOne({ username });
     if (user) {
       return res.status(403).json({ message: 'User already exists' });
     }
 
-    const newUser = new Admin({ username, password });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new Admin({ username, password: hashedPassword });
     await newUser.save();
 
     const token = jwt.sign({ adminId: newUser._id }, ADMIN_SECRET, {
@@ -37,19 +40,26 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.headers;
   try {
     validateAdmin({ username, password });
-    const user = await Admin.findOne({ username, password });
-    if (user) {
-      const token = jwt.sign({ adminId: user._id }, ADMIN_SECRET, {
-        expiresIn: '1h',
-      });
-      return res.json({
-        message: 'Logged in successfully',
-        token,
-        isAdmin: true,
-      });
-    } else {
+
+    const user = await Admin.findOne({ username });
+    if (!user) {
       return res.status(403).json({ message: 'Invalid username or password' });
     }
+
+    const matched = await bcrypt.compare(password, user.password);
+    if (!matched) {
+      return res.status(401).json({ message: 'Wrong username/password!' });
+    }
+
+    const token = jwt.sign({ adminId: user._id }, ADMIN_SECRET, {
+      expiresIn: '1h',
+    });
+
+    return res.json({
+      message: 'Logged in successfully',
+      token,
+      isAdmin: true,
+    });
   } catch (error) {
     return res
       .status(500)
@@ -68,6 +78,7 @@ router.post('/courses', authenticateAdminJwt, async (req, res) => {
       published,
       creatorId: req.adminId,
     });
+
     const newCourse = new Course({
       title,
       description,
@@ -94,6 +105,7 @@ router.put('/courses/:courseId', authenticateAdminJwt, async (req, res) => {
     const { title, description, price, imageLink, published } = req.body;
 
     validateCourse({ title, description, price, imageLink, published });
+
     const updatedCourse = await Course.findByIdAndUpdate(id, {
       title,
       description,
@@ -125,8 +137,8 @@ router.delete('/courses/:courseId', authenticateAdminJwt, async (req, res) => {
 
     return res.status(200).json({ message: 'Course deleted successfully!' });
   } catch (error) {
-    console.error('Error updating a course', error);
-    return res.status(404).json({ message: 'Error updating a course', error });
+    console.error('Error deleting a course', error);
+    return res.status(404).json({ message: 'Error deleting a course', error });
   }
 });
 
