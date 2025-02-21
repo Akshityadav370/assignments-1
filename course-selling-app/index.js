@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const { connectToDatabase } = require('./db');
 const dotenv = require('dotenv');
 const path = require('path');
+
+const { connectToDatabase } = require('./db');
 const userRouter = require('./routes/user');
 const courseRouter = require('./routes/course');
 const adminRouter = require('./routes/admin');

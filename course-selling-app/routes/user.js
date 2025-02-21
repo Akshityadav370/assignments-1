@@ -5,7 +5,11 @@ const { User, validateUser, Course, Purchases } = require('../db/index');
 
 const router = express.Router();
 
-// User routes
+// User
+// 1. Signup
+// 2. Login
+// 3. View his purchased courses
+
 router.post('/signup', async (req, res) => {
   const { username, password } = req.headers;
   try {
@@ -22,9 +26,9 @@ router.post('/signup', async (req, res) => {
     const token = jwt.sign({ userId: newUser._id }, USER_SECRET, {
       expiresIn: '1h',
     });
-    res.json({ message: 'User created successfully', token });
+    return res.json({ message: 'User created successfully', token });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating user', error });
+    return res.status(500).json({ message: 'Error creating user', error });
   }
 });
 
@@ -38,34 +42,22 @@ router.post('/login', async (req, res) => {
         expiresIn: '1h',
       });
       // TODO:Do cookie logic
-      res.json({ message: 'Logged in successfully', token });
+      return res.json({
+        message: 'Logged in successfully',
+        token,
+        isAdmin: false,
+      });
     } else {
-      res.status(403).json({ message: 'Invalid username or password' });
+      return res.status(403).json({ message: 'Invalid username or password' });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error signing in the user', error });
+    return res
+      .status(500)
+      .json({ message: 'Error signing in the user', error });
   }
 });
 
 router.get('/courses', authenticateJwt, async (req, res) => {
-  try {
-    const allCourses = await Course.find();
-
-    return res.status(200).json({ courses: allCourses });
-  } catch (error) {
-    console.error('Error fetching all the courses', error);
-    return res
-      .status(500)
-      .json({ message: 'Failed to fetch all the courses', error });
-  }
-});
-
-router.post('/courses/:courseId', authenticateJwt, (req, res) => {
-  // logic to purchase a course
-});
-
-router.get('/purchasedCourses', authenticateJwt, async (req, res) => {
-  // logic to view purchased courses
   const userId = req.userId;
   const purchases = await Purchases.find({ userId });
 
@@ -75,7 +67,7 @@ router.get('/purchasedCourses', authenticateJwt, async (req, res) => {
     _id: { $in: courseIds },
   });
 
-  res.json({ courses: purchasedCourses });
+  return res.json({ courses: purchasedCourses });
 });
 
 module.exports = router;

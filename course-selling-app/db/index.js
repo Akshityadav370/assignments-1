@@ -35,8 +35,8 @@ const courseSchemaZod = z.object({
 });
 
 const purchaseSchemaZod = z.object({
-  creatorId: ObjectId,
-  userId: ObjectId,
+  courseId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid ObjectId'),
+  userId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid ObjectId'),
 });
 
 const userSchema = new Schema({

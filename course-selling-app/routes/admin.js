@@ -5,6 +5,13 @@ const { Admin, Course, validateAdmin, validateCourse } = require('../db/index');
 
 const router = express.Router();
 
+// Admin
+// 1. Signup
+// 2. Login
+// 3. Create a Course
+// 4. Update a Course
+// 5. Delete a Course
+
 router.post('/signup', async (req, res) => {
   const { username, password } = req.headers;
   try {
@@ -20,9 +27,9 @@ router.post('/signup', async (req, res) => {
     const token = jwt.sign({ adminId: newUser._id }, ADMIN_SECRET, {
       expiresIn: '1h',
     });
-    res.json({ message: 'Admin created successfully', token });
+    return res.json({ message: 'Admin created successfully', token });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating user', error });
+    return res.status(500).json({ message: 'Error creating user', error });
   }
 });
 
@@ -35,12 +42,18 @@ router.post('/login', async (req, res) => {
       const token = jwt.sign({ adminId: user._id }, ADMIN_SECRET, {
         expiresIn: '1h',
       });
-      res.json({ message: 'Logged in successfully', token });
+      return res.json({
+        message: 'Logged in successfully',
+        token,
+        isAdmin: true,
+      });
     } else {
-      res.status(403).json({ message: 'Invalid username or password' });
+      return res.status(403).json({ message: 'Invalid username or password' });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error signing in the user', error });
+    return res
+      .status(500)
+      .json({ message: 'Error signing in the user', error });
   }
 });
 
@@ -100,30 +113,20 @@ router.put('/courses/:courseId', authenticateAdminJwt, async (req, res) => {
   }
 });
 
-router.get('/courses', authenticateAdminJwt, async (req, res) => {
-  try {
-    const allCourses = await Course.find();
-
-    return res.status(200).json({ courses: allCourses });
-  } catch (error) {
-    console.error('Error fetching all the courses', error);
-    return res
-      .status(500)
-      .json({ message: 'Failed to fetch all the courses', error });
-  }
-});
-
-router.get('/courses/:courseId', authenticateAdminJwt, async (req, res) => {
+router.delete('/courses/:courseId', authenticateAdminJwt, async (req, res) => {
   try {
     const id = req.params.courseId;
-    const allCourses = await Course.findById(id);
 
-    return res.status(200).json({ courses: allCourses });
+    const deletedCourse = await Course.findByIdAndDelete(id);
+
+    if (!deletedCourse) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+    return res.status(200).json({ message: 'Course deleted successfully!' });
   } catch (error) {
-    console.error('Error fetching all the courses', error);
-    return res
-      .status(500)
-      .json({ message: 'Failed to fetch all the courses', error });
+    console.error('Error updating a course', error);
+    return res.status(404).json({ message: 'Error updating a course', error });
   }
 });
 
