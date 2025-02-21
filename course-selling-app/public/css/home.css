@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+/* RESETS */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: var(--primary-font);
+}
+
+:root {
+  --primary-cta-bg: #584ccf;
+  --primary-font: 'Roboto Mono', serif;
+}
+
+/* Header starts */
+header {
+  height: 5vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 4rem;
+  border-bottom: 0.5px solid;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-left-content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.header-nav-content ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.header-nav-content li a {
+  text-decoration: none;
+}
+
+.header-nav-content li a:hover {
+  text-decoration: underline;
+  color: #333;
+  font-weight: 700;
+}
+
+.logo-container img {
+  height: 50px;
+  width: 50px;
+}
+
+.primary-cta {
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
+  border-width: 0;
+  color: white;
+  background-color: var(--primary-cta-bg);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.secondary-cta {
+  padding: 0.4rem 0.7rem;
+  border-radius: 5px;
+  border: 0.1px solid lightgrey;
+  color: #757575;
+  background-color: var(white);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+/* Header ends */
+
+/* Hero Content Starts */
+.hero-container {
+  position: relative;
+  height: 90vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.main-right-content img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 90vh;
+  width: 100%;
+  opacity: 0.3;
+  background-position: bottom;
+  z-index: -1;
+}
+
+.main-left-content {
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-primary-heading {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.main-left-content .primary-cta {
+  align-self: flex-start;
+  font-size: 1.2rem;
+}
+
+.main-secondary-heading {
+  color: #757575;
+}
+/* Hero Content Ends */
+
+/* All courses Starts */
+.all-courses {
+  padding: 1.5rem;
+  padding-left: auto;
+  padding-right: auto;
+}
+
+.all-courses h3 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.course-card {
+  padding: 0.5rem;
+  border: 1px solid lightgray;
+  width: 250px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.course-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-family: sans-serif;
+  font-weight: 600;
+}
+
+.course-card img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.card-ctas {
+  display: flex;
+  justify-content: space-between;
+}
+
+.course-cards-container {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  justify-content: space-around;
+}
+/* All courses Ends */
+
+/* Testimonial Starts */
+
+.testimonial-card {
+  padding: 0.8rem;
+  border: 1px solid lightgray;
+  width: 250px;
+  border-radius: 10px;
+  display: inline-block;
+  position: relative;
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-img {
+  height: 70px;
+  width: 70px;
+  border-radius: 35px;
+  background-size: contain;
+}
+
+.testimonials {
+  margin: 1rem 0;
+  padding: 1.5rem;
+  padding-left: auto;
+  padding-right: auto;
+}
+
+.testimonials h3 {
+  text-align: center;
+}
+
+.testimonial-card-container {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  margin: 4rem 0;
+  justify-content: space-around;
+}
+
+.alumni-name {
+  font-size: 1rem;
+}
+
+.alumni-position,
+.alumni-company {
+  font-size: 0.8rem;
+}
+
+.testimonial-header i {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+
+.testimonial-content p {
+  font-size: 0.75rem;
+  margin: 0.8rem 0;
+  color: grey;
+}
+
+footer {
+  height: 50vh;
+  background-color: #030137;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+footer ul {
+  list-style: none;
+}
+
+footer ul li {
+  color: white;
+}
+
+.footer-text {
+  color: white;
+  font-size: 0.8rem;
+  text-align: center;
+  width: 100%;
+}

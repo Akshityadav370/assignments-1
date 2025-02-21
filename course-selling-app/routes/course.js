@@ -8,6 +8,19 @@ const { Purchases, Course, validatePurchase } = require('../db/index');
 // 3. To purchase a particular course by the user
 // 4. To canceled the purchased course
 
+router.get('/preview', async (req, res) => {
+  try {
+    console.log('fetching the courses');
+    const courses = await Course.find({});
+    return res.status(200).json(courses);
+  } catch (error) {
+    console.error('Error fetching the courses', error);
+    return res
+      .status(401)
+      .json({ message: 'Error fetching the courses', error });
+  }
+});
+
 router.get('/:courseId', authenticateJwt, async (req, res) => {
   try {
     const id = req.params.courseId;
@@ -59,18 +72,6 @@ router.delete('/cancel/:courseId', authenticateJwt, async (req, res) => {
     return res
       .status(500)
       .json({ message: 'Error canceling the course', error });
-  }
-});
-
-router.get('/preview', async (req, res) => {
-  try {
-    const courses = await Course.find({});
-    return res.status(200).json(courses);
-  } catch (error) {
-    console.error('Error fetching the courses', error);
-    return res
-      .status(401)
-      .json({ message: 'Error fetching the courses', error });
   }
 });
 

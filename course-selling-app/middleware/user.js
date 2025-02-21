@@ -13,7 +13,7 @@ const authenticateJwt = (req, res, next) => {
       next();
     });
   } else {
-    req.status(401).json({ message: 'Unauthorised: No token provided' });
+    return res.status(401).json({ message: 'Unauthorised: No token provided' });
   }
 };
 

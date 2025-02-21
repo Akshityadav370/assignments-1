@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coding Shuttle!</title>
+    <link rel="stylesheet" href="/css/home.css" />
+    <script src="/js/home.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-left-content">
+        <div class="logo-container">
+          <img src="/images/logo.svg" alt="logo" />
+        </div>
+        <div class="header-nav-content">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">About Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="header-right-content">
+        <button class="primary-cta">Login</button>
+      </div>
+    </header>
+    <main>
+      <div class="hero-container">
+        <div class="main-left-content">
+          <p class="main-primary-heading">
+            Join the latest React 19 and Spring Boot Courses
+          </p>
+          <p class="main-secondary-heading">
+            Our courses are the most in-demand courses on the Internet and help
+            you prepare for your dream company 🚀
+          </p>
+          <button class="primary-cta">
+            Explore Now <i class="fa-thin fa-arrow-right"></i>
+          </button>
+        </div>
+        <div class="main-right-content">
+          <img
+            src="https://cdn.pixabay.com/photo/2019/11/15/14/53/office-4628592_1280.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="all-courses">
+        <h3>Our Courses</h3>
+        <div class="course-cards-container">
+          <% courses.forEach(course => { %>
+          <div class="course-card">
+            <img
+              class="course-img"
+              src="<%= course.imageLink %>"
+              alt="<%= course.title %>"
+            />
+            <p class="course-title"><%= course.title %></p>
+            <div class="card-ctas">
+              <button class="primary-cta">Purchase</button>
+              <button class="secondary-cta">More Details</button>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+      <div class="testimonials">
+        <h3>Transform Your Life With Coding Shuttle</h3>
+        <div class="testimonial-card-container">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img
+                src="https://cdn.pixabay.com/photo/2020/06/09/10/52/man-5277903_640.jpg"
+                alt=""
+                class="user-img"
+              />
+              <div class="testimonial-meta">
+                <p class="alumni-name">Akshit Yadav</p>
+                <p class="alumni-position">Software Engineer</p>
+                <p class="alumni-company">Microsoft</p>
+              </div>
+              <i class="fa-brands fa-linkedin fa-xl" style="color: #4c94e1"></i>
+            </div>
+            <div class="testimonial-content">
+              <p>
+                I was student of your first DSA batch. I wanted to share the
+                good news with you that with the help of your DSA classes, I
+                cracked Atlassian (as a senior software engineer) and Amazon(SDE
+                II), Germany 3 months ago, and in September, I joined Atlassian
+                from Germany.
+              </p>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img
+                src="https://cdn.pixabay.com/photo/2020/06/09/10/52/man-5277903_640.jpg"
+                alt=""
+                class="user-img"
+              />
+              <div class="testimonial-meta">
+                <p class="alumni-name">Akshit Yadav</p>
+                <p class="alumni-position">Software Engineer</p>
+                <p class="alumni-company">Microsoft</p>
+              </div>
+              <i class="fa-brands fa-linkedin fa-xl" style="color: #4c94e1"></i>
+            </div>
+            <div class="testimonial-content">
+              <p>
+                I was student of your first DSA batch. I wanted to share the
+                good news with you that with the help of your DSA classes, I
+                cracked Atlassian (as a senior software engineer) and Amazon(SDE
+                II), Germany 3 months ago, and in September, I joined Atlassian
+                from Germany.
+              </p>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img
+                src="https://cdn.pixabay.com/photo/2020/06/09/10/52/man-5277903_640.jpg"
+                alt=""
+                class="user-img"
+              />
+              <div class="testimonial-meta">
+                <p class="alumni-name">Akshit Yadav</p>
+                <p class="alumni-position">Software Engineer</p>
+                <p class="alumni-company">Microsoft</p>
+              </div>
+              <i class="fa-brands fa-linkedin fa-xl" style="color: #4c94e1"></i>
+            </div>
+            <div class="testimonial-content">
+              <p>
+                I was student of your first DSA batch. I wanted to share the
+                good news with you that with the help of your DSA classes, I
+                cracked Atlassian (as a senior software engineer) and Amazon(SDE
+                II), Germany 3 months ago, and in September, I joined Atlassian
+                from Germany.
+              </p>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img
+                src="https://cdn.pixabay.com/photo/2020/06/09/10/52/man-5277903_640.jpg"
+                alt=""
+                class="user-img"
+              />
+              <div class="testimonial-meta">
+                <p class="alumni-name">Akshit Yadav</p>
+                <p class="alumni-position">Software Engineer</p>
+                <p class="alumni-company">Microsoft</p>
+              </div>
+              <i class="fa-brands fa-linkedin fa-xl" style="color: #4c94e1"></i>
+            </div>
+            <div class="testimonial-content">
+              <p>
+                I was student of your first DSA batch. I wanted to share the
+                good news with you that with the help of your DSA classes, I
+                cracked Atlassian (as a senior software engineer) and Amazon(SDE
+                II), Germany 3 months ago, and in September, I joined Atlassian
+                from Germany.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="left-content">
+        <img src="" alt="" />
+        <p>Follow Us On</p>
+        <div class="social-links">
+          <i class="fa-brands fa-youtube"></i>
+          <i class="fa-brands fa-linkedin-in"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-telegram"></i>
+        </div>
+      </div>
+      <div class="right-content">
+        <h3>COMPANY</h3>
+        <ul>
+          <li>About Us</li>
+          <li>Terms & Conditions</li>
+          <li>Privacy Policy</li>
+          <li>Contact Us</li>
+        </ul>
+      </div>
+      <p class="footer-text">Made with <span>❤️</span> by Akshit</p>
+    </footer>
+  </body>
+</html>
