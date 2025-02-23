@@ -69,6 +69,11 @@ header {
   cursor: pointer;
   font-size: 0.8rem;
 }
+
+.username {
+  font-size: 1.2rem;
+  color: cadetblue;
+}
 /* Header ends */
 
 /* Hero Content Starts */
@@ -157,10 +162,15 @@ header {
   margin: 2rem 0;
   justify-content: space-around;
 }
+
+.course-description {
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  color: grey;
+}
 /* All courses Ends */
 
 /* Testimonial Starts */
-
 .testimonial-card {
   padding: 0.8rem;
   border: 1px solid lightgray;
@@ -222,7 +232,9 @@ header {
   margin: 0.8rem 0;
   color: grey;
 }
+/* Testimonial Ends */
 
+/* Footer Starts */
 footer {
   height: 50vh;
   background-color: #030137;
@@ -247,3 +259,4 @@ footer ul li {
   text-align: center;
   width: 100%;
 }
+/* Footer Ends */

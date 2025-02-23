@@ -10,7 +10,6 @@ const { Purchases, Course, validatePurchase } = require('../db/index');
 
 router.get('/preview', async (req, res) => {
   try {
-    console.log('fetching the courses');
     const courses = await Course.find({});
     return res.status(200).json(courses);
   } catch (error) {

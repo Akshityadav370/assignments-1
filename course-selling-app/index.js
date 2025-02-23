@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
@@ -28,11 +29,14 @@ app.get('/', async (req, res) => {
   try {
     const response = await axios.get('http://localhost:3000/course/preview');
     const courses = response.data;
-    console.log('Courses received:', response.data);
     res.render('home', { courses });
   } catch (error) {
     res.status(500).send(`Error loading courses ${error}`);
   }
+});
+
+app.get('/login', async (req, res) => {
+  res.render('login', { errorMessage: undefined });
 });
 
 connectToDatabase().then(() => {

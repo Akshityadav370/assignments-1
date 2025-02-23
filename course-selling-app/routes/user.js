@@ -12,31 +12,34 @@ const router = express.Router();
 // 3. View his purchased courses
 
 router.post('/signup', async (req, res) => {
-  const { username, password } = req.headers;
+  const { username, password } = req.body;
   try {
     validateUser({ username, password });
-    // TODO: Hash the password using bcrypt
+
     const user = await User.findOne({ username });
     if (user) {
-      return res.status(403).json({ message: 'User already exists' });
+      return res.status(400).json({
+        message: 'User already exists',
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
 
-    const token = jwt.sign({ userId: newUser._id }, USER_SECRET, {
-      expiresIn: '1h',
+    return res.status(201).json({
+      message: 'User created successfully',
+      redirect: '/login',
     });
-    return res.json({ message: 'User created successfully', token });
   } catch (error) {
-    return res.status(500).json({ message: 'Error creating user', error });
+    return res.status(400).json({
+      message: `Error creating user: ${error.message}`,
+    });
   }
 });
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.headers;
+  const { username, password } = req.body;
   try {
     validateUser({ username, password });
 
@@ -54,20 +57,21 @@ router.post('/login', async (req, res) => {
       expiresIn: '1h',
     });
 
-    return res.json({
-      message: 'Logged in successfully',
-      token,
-      isAdmin: false,
+    return res.status(200).json({
+      token: token,
+      message: 'Login successful',
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: 'Error signing in the user', error });
+    return res.status(500).json({
+      message: 'Error signing in the user',
+      error: error.message,
+    });
   }
 });
 
 router.get('/courses', authenticateJwt, async (req, res) => {
   const userId = req.userId;
+  const userData = await User.findById(userId);
   const purchases = await Purchases.find({ userId });
 
   const courseIds = purchases.map((purchase) => purchase.courseId);
@@ -76,7 +80,7 @@ router.get('/courses', authenticateJwt, async (req, res) => {
     _id: { $in: courseIds },
   });
 
-  return res.json({ courses: purchasedCourses });
+  return res.json({ courses: purchasedCourses, username: userData.username });
 });
 
 module.exports = router;

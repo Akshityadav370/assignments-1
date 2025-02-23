@@ -12,9 +12,10 @@ const router = express.Router();
 // 3. Create a Course
 // 4. Update a Course
 // 5. Delete a Course
+// 6. View his created Courses
 
 router.post('/signup', async (req, res) => {
-  const { username, password } = req.headers;
+  const { username, password } = req.body;
   try {
     validateAdmin({ username, password });
 
@@ -37,7 +38,7 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.headers;
+  const { username, password } = req.body;
   try {
     validateAdmin({ username, password });
 
@@ -58,7 +59,6 @@ router.post('/login', async (req, res) => {
     return res.json({
       message: 'Logged in successfully',
       token,
-      isAdmin: true,
     });
   } catch (error) {
     return res
@@ -140,6 +140,16 @@ router.delete('/courses/:courseId', authenticateAdminJwt, async (req, res) => {
     console.error('Error deleting a course', error);
     return res.status(404).json({ message: 'Error deleting a course', error });
   }
+});
+
+router.get('/courses', authenticateAdminJwt, async (req, res) => {
+  const adminId = req.adminId;
+  const userData = await Admin.findById(adminId);
+  const createdCourses = await Course.find({
+    creatorId: { $in: adminId },
+  });
+
+  return res.json({ courses: createdCourses, username: userData.username });
 });
 
 module.exports = router;

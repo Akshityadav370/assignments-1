@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+:root {
+  --primary-cta-bg: #584ccf;
+  --primary-font: 'Roboto Mono', serif;
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-family: var(--primary-font);
+}
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#admin-text {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+.credential-container {
+  padding: 4rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--primary-cta-bg);
+}
+
+#login-container,
+#admin-container,
+#signup-container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  max-width: 50%;
+}
+
+#login-container h2,
+#admin-container h2,
+#signup-container h2 {
+  margin-bottom: 50px;
+  align-self: center;
+}
+
+form {
+  justify-items: center;
+}
+
+form div,
+button {
+  margin-bottom: 20px;
+}
+
+form label {
+  margin-right: 10px;
+}
+
+.primary-cta {
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
+  border-width: 0;
+  color: white;
+  background-color: var(--primary-cta-bg);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.error-message {
+  position: absolute;
+  top: 10%;
+  right: 50%;
+  color: red;
+  text-align: center;
+  max-width: 50%;
+  margin: 10px auto;
+  padding: 10px;
+  background-color: #ffe6e6;
+  border-radius: 4px;
+  border: 1px solid #ffcccc;
+}

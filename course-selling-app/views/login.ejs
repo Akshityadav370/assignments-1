@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login / Signup</title>
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+  <body>
+    <div class="container">
+      <a id="admin-text">Admin</a>
+
+      <!-- Shared Error Message Component -->
+      <div id="error-container" class="error-message" style="display: none">
+        <p id="error-text"></p>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-container" class="credential-container">
+        <h2>Login</h2>
+        <form id="login-form" action="/user/login" method="POST">
+          <div>
+            <label for="login-username">Username:</label>
+            <input
+              value="akshit"
+              type="text"
+              id="login-username"
+              name="username"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="login-password">Password:</label>
+            <input
+              value="123456"
+              type="password"
+              id="login-password"
+              name="password"
+              required
+            />
+          </div>
+
+          <button class="primary-cta" type="submit">Login</button>
+          <p>New here? <a href="#" id="show-signup">Signup</a></p>
+        </form>
+      </div>
+
+      <!-- Admin Form -->
+      <div
+        id="admin-container"
+        class="credential-container"
+        style="display: none"
+      >
+        <h2>Login as Admin</h2>
+        <form id="admin-form" action="/admin/login" method="POST">
+          <div>
+            <label for="admin-username">Username:</label>
+            <input
+              value="admin"
+              type="text"
+              id="admin-username"
+              name="username"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="admin-password">Password:</label>
+            <input
+              value="123456"
+              type="password"
+              id="admin-password"
+              name="password"
+              required
+            />
+          </div>
+
+          <button class="primary-cta" type="submit">Login</button>
+          <p>Login as <a href="#" id="show-login">User</a></p>
+        </form>
+      </div>
+
+      <!-- Signup Form -->
+      <div
+        id="signup-container"
+        class="credential-container"
+        style="display: none"
+      >
+        <h2>Signup</h2>
+        <form id="signup-form" action="/user/signup" method="POST">
+          <div>
+            <label for="signup-username">Username:</label>
+            <input type="text" id="signup-username" name="username" required />
+          </div>
+
+          <div>
+            <label for="signup-password">Password:</label>
+            <input
+              type="password"
+              id="signup-password"
+              name="password"
+              required
+            />
+          </div>
+          <div>
+            <label for="signup-confirm-password">Confirm Password:</label>
+            <input
+              type="password"
+              id="signup-confirm-password"
+              name="confirm-password"
+              required
+            />
+          </div>
+
+          <button class="primary-cta" type="submit">Signup</button>
+          <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const loginContainer = document.getElementById('login-container');
+        const signupContainer = document.getElementById('signup-container');
+        const adminContainer = document.getElementById('admin-container');
+        const errorContainer = document.getElementById('error-container');
+        const errorText = document.getElementById('error-text');
+        const showSignup = document.getElementById('show-signup');
+        const showLoginElements =
+          document.querySelectorAll('[id="show-login"]');
+        const showAdmin = document.getElementById('admin-text');
+
+        function showError(message) {
+          errorText.textContent = message;
+          errorContainer.style.display = 'block';
+          setTimeout(() => {
+            errorContainer.style.display = 'none';
+          }, 5000);
+        }
+
+        const forms = document.querySelectorAll('form');
+        forms.forEach((form) => {
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            const isAdmin = form.id === 'admin-form';
+
+            if (form.id === 'signup-form') {
+              const password = formData.get('password');
+              const confirmPassword = formData.get('confirm-password');
+
+              if (password !== confirmPassword) {
+                showError('Passwords do not match');
+                return;
+              }
+            }
+
+            try {
+              const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(Object.fromEntries(formData)),
+              });
+
+              const data = await response.json();
+
+              if (!response.ok) {
+                showError(data.message || 'An error occurred');
+                return;
+              }
+
+              if (data.token) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('isAdmin', data.isAdmin || false);
+                window.location.href = '/';
+              } else if (data.redirect) {
+                window.location.href = data.redirect;
+              }
+            } catch (error) {
+              console.log(error);
+              showError('An error occurred. Please try again.');
+            }
+          });
+        });
+
+        showSignup.addEventListener('click', function (event) {
+          event.preventDefault();
+          loginContainer.style.display = 'none';
+          adminContainer.style.display = 'none';
+          signupContainer.style.display = 'block';
+          showAdmin.style.display = 'block';
+          errorContainer.style.display = 'none';
+        });
+
+        showLoginElements.forEach((showLogin) => {
+          showLogin.addEventListener('click', function (event) {
+            event.preventDefault();
+            signupContainer.style.display = 'none';
+            adminContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+            showAdmin.style.display = 'block';
+            errorContainer.style.display = 'none';
+          });
+        });
+
+        showAdmin.addEventListener('click', function (event) {
+          event.preventDefault();
+          signupContainer.style.display = 'none';
+          loginContainer.style.display = 'none';
+          adminContainer.style.display = 'block';
+          showAdmin.style.display = 'none';
+          errorContainer.style.display = 'none';
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const flashError = urlParams.get('error');
+        if (flashError) {
+          showError(decodeURIComponent(flashError));
+        }
+      });
+    </script>
+  </body>
+</html>

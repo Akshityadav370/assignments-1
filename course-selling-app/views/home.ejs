@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coding Shuttle!</title>
     <link rel="stylesheet" href="/css/home.css" />
-    <script src="/js/home.js"></script>
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -30,7 +28,17 @@
         </div>
       </div>
       <div class="header-right-content">
-        <button class="primary-cta">Login</button>
+        <button
+          id="login-button"
+          onclick="window.location.href='/login'"
+          class="primary-cta"
+        >
+          Login
+        </button>
+        <p class="username" style="display: none"></p>
+        <button id="logout-button" class="secondary-cta" style="display: none">
+          Logout
+        </button>
       </div>
     </header>
     <main>
@@ -54,6 +62,30 @@
           />
         </div>
       </div>
+      <div class="your-courses" style="display: none">
+        <h3>Your Purchased Courses</h3>
+        <div class="course-cards-container"></div>
+      </div>
+      <div class="admin-courses" style="display: none">
+        <h3>Your Courses</h3>
+        <div class="course-cards-container">
+          <% courses.forEach(course => { %>
+          <div class="course-card">
+            <img
+              class="course-img"
+              src="<%= course.imageLink %>"
+              alt="<%= course.title %>"
+            />
+            <p class="course-title"><%= course.title %></p>
+            <p class="course-description"><%= course.description %></p>
+            <div class="card-ctas">
+              <button class="primary-cta">Purchase</button>
+              <button class="secondary-cta">More Details</button>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
       <div class="all-courses">
         <h3>Our Courses</h3>
         <div class="course-cards-container">
@@ -65,6 +97,7 @@
               alt="<%= course.title %>"
             />
             <p class="course-title"><%= course.title %></p>
+            <p class="course-description"><%= course.description %></p>
             <div class="card-ctas">
               <button class="primary-cta">Purchase</button>
               <button class="secondary-cta">More Details</button>
@@ -198,5 +231,36 @@
       </div>
       <p class="footer-text">Made with <span>❤️</span> by Akshit</p>
     </footer>
+    <!-- <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const isAdmin = localStorage.getItem('isAdmin');
+        const token = localStorage.getItem('token');
+
+        const loginButton = document.getElementById('login-button');
+        console.log('admin here');
+        if (token) {
+          if (isAdmin) {
+            fetchAdminCourses()
+              .then(() => {
+                loginButton.style.display = 'none';
+                console.log('admin here');
+              })
+              .catch((error) => console.error('Error fetching admin courses'));
+          } else {
+            fetchUserCourses()
+              .then(() => {
+                loginButton.style.display = 'none';
+                console.log('user here');
+              })
+              .catch((error) => console.error('Error fetching user courses'));
+          }
+        }
+      });
+
+      function fetchAdminCourses() {}
+
+      function fetchUserCourses() {}
+    </script> -->
+    <script type="module" src="/js/home.js"></script>
   </body>
 </html>
