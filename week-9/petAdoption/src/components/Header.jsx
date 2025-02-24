@@ -1,9 +1,7 @@
-import React from 'react'
+import style from './header.module.css';
 
-const Header = () => {
-  return (
-    <div>Header</div>
-  )
-}
+const Header = (props) => {
+  return <div className={style.header}>{props.message}</div>;
+};
 
-export default Header
+export default Header;
